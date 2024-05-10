@@ -11,13 +11,13 @@ public class Product {
 
     public Product() { }
 
-    public Product(int id, string name, string description, string image, double price, int categoryId, Category category) {
+    public Product(int id, string name, string description, string image, 
+        double price, int categoryId) {
         Id = id;
         Name = name;
         Description = description;
         Image = image;
         Price = price;
         CategoryId = categoryId;
-        Category = category;
     }
 }
