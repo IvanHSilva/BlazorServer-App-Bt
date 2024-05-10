@@ -11,13 +11,16 @@
 </ul>
 
 @code {
+    [Parameter]
+    public int Skip { get; set; } = 0;
+
     private List<Product> _products = new();
 
     protected override async Task OnInitializedAsync() {
 
-        //await Task.Delay(50);
+        await Task.Delay(5);
 
-        for (int i = 1; i <= 25; i++) {
+        for (int i = 1; i <= 250; i++) {
             _products.Add(new Product(
                 i, $"Produto {i}", $"Descrição {i}", $"img-prod-{i}",
                 i * 10, 1)

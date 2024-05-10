@@ -1,8 +1,11 @@
-﻿@page "/products"
+﻿@page "/products/{skip:int?}"
 
 <PageTitle>Produtos</PageTitle>
 
 <h3>Produtos</h3><br />
-<ProductListComponent></ProductListComponent>
+<ProductListComponent Skip="@Skip"></ProductListComponent>
 
-@code {}
+@code {
+    [Parameter]
+    public int Skip { get; set; } = 0;
+}
