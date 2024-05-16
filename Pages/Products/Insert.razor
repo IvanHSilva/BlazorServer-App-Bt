@@ -2,10 +2,17 @@
 
 <h3>Novo Produto</h3>
 
-<EditForm Model="_productModel">
+<EditForm Model="_productModel" OnValidSubmit="@HandleSubmitAsync">
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Nome:</label>
+        <InputText class="form-control" type="text" id="Name" 
+        @bind-Value="_productModel.Name"/>
+    </div>
 
 </EditForm>
 
 @code {
     private Product _productModel = new();
+    async Task HandleSubmitAsync(){}
 }
