@@ -1,8 +1,14 @@
+using BlazingShop.Models.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+var connStr = builder.Configuration.GetConnectionString("DbConnection");
+builder.Services.AddDbContext<AppDbContext>(db => db.UseSqlServer(connStr));
 
 var app = builder.Build();
 
