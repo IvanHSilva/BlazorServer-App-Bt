@@ -1,4 +1,6 @@
 ﻿@page "/products/insert"
+@inject AppDbContext _context
+
 
 <h3>Novo Produto</h3>
 
@@ -30,7 +32,13 @@
 
 @code {
     private Product _productModel = new();
+
+
     List<Category> _categories = new();
 
+    protected override async Task OnInitializedAsync() {
+        _categories = await _context.Categories.AsNoTracking().ToListAsync(); 
+    }
+    
     async Task HandleSubmitAsync(){}
 }
