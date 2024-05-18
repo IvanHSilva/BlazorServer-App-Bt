@@ -6,6 +6,9 @@
 
 <EditForm Model="_productModel" OnValidSubmit="@HandleSubmitAsync">
 
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
     <div class="mb-3">
         <label for="Name" class="form-label">Nome:</label>
         <InputText id="Name" class="form-control" type="text" 
@@ -27,6 +30,8 @@
             }
         </InputSelect>
     </div>
+
+    <button class="btn btn-success" type="submit">Salvar</button>
 
 </EditForm>
 
