@@ -24,7 +24,10 @@
                 <td>@product.Name</td>
                 <td>@product.Price.ToString("N")</td>
                 <td>@product.Category.Name</td>
-                <td>-</td>
+                <td>
+                    <a href="/products/update/@product.Id">Alterar</a>
+                    <a href="/products/delete/@product.Id">Excluir</a>
+                </td>
             </tr>
         }
     </tbody>

@@ -1,8 +1,8 @@
-﻿@page "/products/update/{id:int}"
+﻿@page "/products/delete/{id:int}"
 @inject AppDbContext _context
 @inject NavigationManager _navManager
 
-<h3>Alterar Produto @_productModel.Name</h3>
+<h3>Excluir Produto @_productModel.Name</h3>
 
 <EditForm Model="@_productModel" OnValidSubmit="@HandleSubmitAsync">
 
@@ -11,24 +11,20 @@
 
     <div class="mb-3">
         <label for="Name" class="form-label">Nome:</label>
-        <InputText id="Name" class="form-control" type="text" 
+        <InputText readonly id="Name" class="form-control" type="text" 
         @bind-Value="_productModel.Name"/>
     </div>
 
     <div class="mb-3">
         <label for="Price" class="form-label">Preço:</label>
-        <InputNumber id="Price" class="form-control" type="number" 
+        <InputNumber readonly id="Price" class="form-control" type="number" 
         @bind-Value="_productModel.Price"/>
     </div>
 
     <div class="mb-3">
-        <label for="CategoryId" class="form-label">Categoria:</label>
-        <InputSelect id="CategoryId" class="form-control" 
-        @bind-Value="_productModel.CategoryId">
-            @foreach(Category category in _categories) {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </InputSelect>
+        <label for="Name" class="form-label">Categoria:</label>
+        <InputText readonly id="Name" class="form-control" type="text"
+                   @bind-Value="_productModel.Category.Name" />
     </div>
 
     @if (!string.IsNullOrEmpty(_erroMessage)){
@@ -37,7 +33,7 @@
         </div>
     }
 
-    <button class="btn btn-success" type="submit">Salvar</button>
+    <button class="btn btn-danger" type="submit">Excluir</button>
 
 </EditForm>
 
@@ -47,12 +43,9 @@
     public int Id { get; set; }  
 
     private Product? _productModel = new();
-    List<Category> _categories = new();
     string? _erroMessage = null;
 
     protected override async Task OnInitializedAsync() {
-        _categories = await _context.Categories.AsNoTracking().
-        OrderBy(c => c.Name).ToListAsync();
         _productModel = await _context.Products.AsNoTracking().
         FirstOrDefaultAsync(p => p.Id == Id);
     }
@@ -68,7 +61,7 @@
             product.Price = _productModel.Price;
             product.CategoryId = _productModel.CategoryId;
 
-            _context.Products.Update(product);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             
             _navManager.NavigateTo("/products");
