@@ -1,8 +1,8 @@
-﻿@page "/products/insert"
+﻿@page "/products/update/{id:int}"
 @inject AppDbContext _context
 @inject NavigationManager _navManager
 
-<h3>Novo Produto</h3>
+<h3>Alterar Produto @_productModel.Name</h3>
 
 <EditForm Model="@_productModel" OnValidSubmit="@HandleSubmitAsync">
 
@@ -43,20 +43,34 @@
 
 @code {
 
-    private Product _productModel = new();
+    [Parameter]
+    public int Id { get; set; }  
+
+    private Product? _productModel = new();
     List<Category> _categories = new();
     string? _erroMessage = null;
 
     protected override async Task OnInitializedAsync() {
         _categories = await _context.Categories.AsNoTracking().
         OrderBy(c => c.Name).ToListAsync();
-        _productModel.CategoryId = _categories[0].Id;
+        _productModel = await _context.Products.AsNoTracking().
+        FirstAsync(p => p.Id == Id);
     }
 
     async Task HandleSubmitAsync() {
         try {
-            await _context.Products.AddAsync(_productModel);
+            Product? product = await _context.Products.
+            FirstOrDefaultAsync(p => p.Id == Id);
+            if (product is null)
+                throw new Exception("Produto não encontado");
+            
+            product.Name = _productModel!.Name;
+            product.Price = _productModel.Price;
+            product.CategoryId = _productModel.CategoryId;
+
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
+            
             _navManager.NavigateTo("/products");
         } catch (Exception e) {
             _erroMessage = e.Message;
