@@ -1,6 +1,6 @@
 ﻿@page "/products/insert"
 @inject AppDbContext _context
-
+@inject NavigationManager _navManager
 
 <h3>Novo Produto</h3>
 
@@ -55,6 +55,7 @@
         try {
             await _context.Products.AddAsync(_productModel);
             await _context.SaveChangesAsync();
+            _navManager.NavigateTo("/products");
         } catch (Exception e) {
             _erroMessage = e.Message;
         }

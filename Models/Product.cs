@@ -10,7 +10,7 @@ public class Product {
     [Required(ErrorMessage = "Informe o Nome")] 
     public string Name { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Informe a Descrição")] 
+    //[Required(ErrorMessage = "Informe a Descrição")] 
     public string Description { get; set; } = string.Empty;
 
     //[Required(ErrorMessage = "Informe a Imagem")] 
