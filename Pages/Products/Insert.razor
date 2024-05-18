@@ -50,6 +50,13 @@
     protected override async Task OnInitializedAsync() {
         _categories = await _context.Categories.AsNoTracking().ToListAsync(); 
     }
-    
-    async Task HandleSubmitAsync(){}
+
+    async Task HandleSubmitAsync() {
+        try {
+            await _context.Products.AddAsync(_productModel);
+            await _context.SaveChangesAsync();
+        } catch (Exception e) {
+            _erroMessage = e.Message;
+        }
+    }
 }
