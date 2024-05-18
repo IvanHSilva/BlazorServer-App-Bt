@@ -31,15 +31,21 @@
         </InputSelect>
     </div>
 
+    @if (!string.IsNullOrEmpty(_erroMessage)){
+        <div class="alert alert-danger" role="alert">
+            @_erroMessage
+        </div>
+    }
+
     <button class="btn btn-success" type="submit">Salvar</button>
 
 </EditForm>
 
 @code {
+
     private Product _productModel = new();
-
-
     List<Category> _categories = new();
+    string? _erroMessage = null;
 
     protected override async Task OnInitializedAsync() {
         _categories = await _context.Categories.AsNoTracking().ToListAsync(); 
